@@ -32,6 +32,7 @@ main () {
 	varTempDownloadFile="$HOME/working/tempfile.txt"
 	varExtractedC2sFile="$HOME/working/extracted-ips.txt"
 	varExtractedDomainNamesFile="$HOME/working/extracted-domainnames.txt"
+	varExtractedSHA256HashesFile="$HOME/working/extracted-hashes.txt"
 	varDate=$(date +%Y-%m-%d)
 	
 	#Download website
@@ -43,13 +44,16 @@ main () {
 	#Extract domain names from file
 	grep "^http" $varTempDownloadFile | grep -vE "\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b" | sed -E -e 's_.*://([^/@]*@)?([^/:]+).*_\2_' > $varExtractedDomainNamesFile
 
+	egrep -o '[a-fA-F0-9]{64}' $varTempDownloadFile > $varExtractedSHA256HashesFile
+	
 	#Remove temp file
 	rm $varTempDownloadFile
 	# clear the screen
 	clear
 	echo ""
 	echo -e ${Green}"Your extracted list of IPs is located here: $varExtractedC2sFile"${NC}
-	echo -e ${Green}"Your extracted list of IPs is located here: $varExtractedDomainNamesFile"${NC}
+	echo -e ${Green}"Your extracted list of Domain Names is located here: $varExtractedDomainNamesFile"${NC}
+	echo -e ${Green}"Your extracted list of SHA256 Hashes is located here: $varExtractedSHA256HashesFile"${NC}
 	echo ""
 
 	#Upload IOC list to pastebin
