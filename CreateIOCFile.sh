@@ -10,7 +10,7 @@ Blue='\033[0;34m'         # Blue
 Purple='\033[0;35m'       # Purple
 Cyan='\033[0;36m'         # Cyan
 White='\033[0;37m'        # White
-NC='\033[0m' 			  # No Color
+NC='\033[0m' 		  # No Color
 
 main () {
 	# Clear the screen
@@ -44,6 +44,7 @@ main () {
 	#Extract domain names from file
 	grep "^http" $varTempDownloadFile | grep -vE "\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b" | sed -E -e 's_.*://([^/@]*@)?([^/:]+).*_\2_' > $varExtractedDomainNamesFile
 
+	#Extract SHA256 hashes from file
 	egrep -o '[a-fA-F0-9]{64}' $varTempDownloadFile > $varExtractedSHA256HashesFile
 	
 	#Remove temp file
